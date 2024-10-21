@@ -12,6 +12,10 @@ class Contact extends Model
 
     protected $fillable = ['name', 'phone', 'email', 'address_id'];
 
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
     public static function boot()
     {
         parent::boot();

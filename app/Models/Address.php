@@ -12,6 +12,10 @@ class Address extends Model
 
     protected $fillable = ['cep', 'street', 'neighborhood', 'city', 'state'];
 
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
     public static function boot()
     {
         parent::boot();
