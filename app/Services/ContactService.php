@@ -6,7 +6,6 @@ use App\Repositories\ContactRepository;
 use App\Repositories\AddressRepository;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Env;
 
 class ContactService
 {
@@ -41,9 +40,8 @@ class ContactService
 
     private function fetchAddressFromCep(string $cep): array
     {
-        $url = sprintf(Env::get('VIACEP_URL'), $cep);
-
-        $response = Http::get($url);
+        $apiUrl = env('VIACEP_URL', 'https://viacep.com.br/ws');
+        $response = Http::get("{$apiUrl}/{$cep}/json/");
 
         if ($response->failed() || isset($response['erro'])) {
             throw ValidationException::withMessages(['cep' => 'CEP inválido ou não encontrado']);
