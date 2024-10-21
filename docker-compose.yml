@@ -4,16 +4,16 @@ services:
         context: .
         dockerfile: ./docker/php/Dockerfile
     image: php:8.3-fpm
-    container_name: laravel_app
+    container_name: vertex_app
     working_dir: /var/www
     volumes:
       - ./:/var/www
     networks:
-      - laravel
+      - vertex
 
   webserver:
     image: nginx:alpine
-    container_name: laravel_webserver
+    container_name: vertex_webserver
     restart: unless-stopped
     ports:
       - "8000:80"
@@ -23,11 +23,11 @@ services:
     depends_on:
       - app
     networks:
-      - laravel
+      - vertex
 
   db:
     image: postgres:14-alpine
-    container_name: laravel_db
+    container_name: vertex_database
     environment:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}
@@ -37,11 +37,11 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - laravel
+      - vertex
 
 volumes:
   dbdata:
 
 networks:
-  laravel:
+  vertex:
     driver: bridge
