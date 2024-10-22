@@ -6,6 +6,17 @@ use App\Models\Contact;
 
 class ContactRepository
 {
+    public function delete(string $id): bool
+    {
+        $contact = Contact::find($id);
+
+        if ($contact) {
+            return $contact->delete();
+        }
+
+        return false;
+    }
+
     public function search(?string $name, ?string $email)
     {
         $query = Contact::query();
