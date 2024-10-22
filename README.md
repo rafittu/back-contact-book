@@ -26,6 +26,7 @@ Este projeto utiliza as seguintes tecnologias:
 - Adicionar novos contatos com nome, telefone, e-mail e CEP.
 - Validação e preenchimento automático do endereço utilizando o CEP e a API ViaCEP.
 - Filtros avançados para busca de contatos por `nome` e `e-mail`.
+- Listar todos os contatos.
 - Deletar um contato.
 
 <br>
