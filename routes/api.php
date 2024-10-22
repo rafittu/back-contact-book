@@ -11,3 +11,4 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/contacts', [ContactController::class, 'store']);
 Route::get('/contacts', [ContactController::class, 'index']);
+Route::delete('/contacts/{id}', [ContactController::class, 'destroy']);
