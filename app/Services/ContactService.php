@@ -18,6 +18,11 @@ class ContactService
         $this->addressRepository = $addressRepository;
     }
 
+    public function searchContacts(?string $name, ?string $email)
+    {
+        return $this->contactRepository->search($name, $email);
+    }
+
     public function createContact(array $data): array
     {
         $addressData = $this->fetchAddressFromCep($data['cep']);
