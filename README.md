@@ -1,66 +1,164 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📒 Back-end da aplicação Contact Book
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+###
+
+<br>
+
+Este projeto é uma API de Agenda de Contatos desenvolvida com o framework PHP Laravel 11 em um ambiente Docker. A aplicação permite adicionar, buscar e visualizar contatos, validando os dados fornecidos, como nome, telefone, e-mail e CEP. O CEP é validado através da API pública ViaCEP. A aplicação oferece um ponto de integração REST que pode ser consumido por sistemas externos.
+
+Para uma experiência completa, siga o passo a passo abaixo para configurar o ambiente e iniciar o servidor.
+
+<br>
+
+## Tecnologias
+
+Este projeto utiliza as seguintes tecnologias:
+
+- **PHP 8.3** com framework **Laravel 11**;
+- **PostgreSQL** como banco de dados relacional;
+- **ViaCEP API** para validação e preenchimento automático de endereços;
+- **Docker** como uma ferramenta de containerização;
+
+<br>
+
+## Funcionalidades
+### Contatos:
+- Adicionar novos contatos com nome, telefone, e-mail e CEP.
+- Validação do CEP utilizando a API pública ViaCEP.
+- Filtros avançados para busca de contatos por `nome` e `e-mail`.
+
+<br>
+
+## Configuração do Projeto
+
+### Requisitos para rodar a aplicação
+
+Para rodar este projeto, é necessário ter os seguintes softwares instalados:
+
+- **Docker**: https://docs.docker.com/get-docker/
+- **Docker Compose**: https://docs.docker.com/compose/install/
+
+### Instalação
+
+1. Clonando o repositório:
+
+```bash
+$ git clone git@github.com:rafittu/back-contact-book.git
+$ cd back-contact-book
+```
+
+2. Crie um arquivo `.env` na raiz do projeto e preencha as informações de acordo com o arquivo `.env.example` disponível.
+
+3. Inicie o ambiente de desenvolvimento:
+
+```bash
+$ docker-compose up --build
+```
+
+4. Após iniciar o ambiente, entre no container e instale as dependências do Laravel:
+
+```
+$ docker-compose exec app bash
+$ composer install
+```
+
+5. Rodar as migrações do banco de dados:
+
+```
+$ php artisan migrate
+```
+
+6. Gerar a chave da aplicação:
+
+```
+$ php artisan key:generate
+```
+
+<br>
+
+## Endpoints Principais
+### Contatos:
+
+- **`POST /api/contacts`:** Criar um novo contato;
+```
+{
+  "name": "John Doe",
+  "phone": "123456789",
+  "email": "johndoe@example.com",
+  "cep": "01001000"
+}
+```
+
+- * **Resposta**:
+ 
+```
+{
+  "id": "uuid",
+  "name": "John Doe",
+  "phone": "123456789",
+  "email": "johndoe@example.com",
+  "address": {
+    "id": "uuid",
+    "cep": "01001000",
+    "street": "Praça da Sé",
+    "neighborhood": "Sé",
+    "city": "São Paulo",
+    "state": "SP"
+  },
+  "created_at": "2024-10-22T10:00:00.000000Z",
+  "updated_at": "2024-10-22T10:00:00.000000Z"
+}
+```
+
+- **`GET /api/contacts`:** Lista todos os contatos, com opções de filtro por `nome` e `e-mail`;
+  1. Filtros devem ser usados como query nas requisições. Opções disponíveis:
+     - `name`: Filtrar contatos pelo nome.
+     - `email`: Filtrar contatos pelo e-mail.
+
+- * **Resposta**:
+
+```
+{
+  "data": [
+    {
+      "id": "uuid",
+      "name": "John Doe",
+      "phone": "123456789",
+      "email": "johndoe@example.com",
+      "address": {
+        "id": "uuid",
+        "cep": "01001000",
+        "street": "Praça da Sé",
+        "neighborhood": "Sé",
+        "city": "São Paulo",
+        "state": "SP"
+      },
+      "created_at": "2024-10-22T10:00:00.000000Z",
+      "updated_at": "2024-10-22T10:00:00.000000Z"
+    }
+  ],
+  "links": {
+    "first": "http://localhost:8000/api/contacts?page=1",
+    "last": "http://localhost:8000/api/contacts?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "path": "http://localhost:8000/api/contacts",
+    "per_page": 10,
+    "to": 1,
+    "total": 1
+  }
+}
+```
+
+<br>
+
+##
+
+<p align="right">
+  <a href="https://www.linkedin.com/in/rafittu/">Rafael Ribeiro 🚀</a>
 </p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
