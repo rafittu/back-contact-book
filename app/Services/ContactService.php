@@ -18,6 +18,11 @@ class ContactService
         $this->addressRepository = $addressRepository;
     }
 
+    public function deleteContact(string $id): bool
+    {
+        return $this->contactRepository->delete($id);
+    }
+
     public function searchContacts(?string $name, ?string $email)
     {
         return $this->contactRepository->search($name, $email);
