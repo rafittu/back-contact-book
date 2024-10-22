@@ -20,4 +20,14 @@ class ContactController extends Controller
         $contact = $this->contactService->createContact($request->validated());
         return response()->json($contact, 201);
     }
+
+    public function index(Request $request): JsonResponse
+    {
+        $name = $request->query('name');
+        $email = $request->query('email');
+
+        $contacts = $this->contactService->searchContacts($name, $email);
+
+        return response()->json($contacts, 200);
+    }
 }
