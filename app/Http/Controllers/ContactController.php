@@ -7,6 +7,7 @@ use App\Services\ContactService;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\NotFoundHttpException;
 
 class ContactController extends Controller
 {
@@ -31,5 +32,16 @@ class ContactController extends Controller
         $contacts = $this->contactService->searchContacts($name, $email);
 
         return response()->json($contacts, 200);
+    }
+
+    public function destroy(int $id): JsonResponse
+    {
+        $contact = $this->contactService->deleteContact($id);
+
+        if (!$contact) {
+        throw new NotFoundHttpException('Contact not found');
+        }
+
+        return response()->json(['message' => 'Contato deletado com sucesso'], 200);
     }
 }
