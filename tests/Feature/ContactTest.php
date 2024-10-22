@@ -51,4 +51,17 @@ class ContactTest extends TestCase
         $response->assertStatus(422)
                  ->assertJsonValidationErrors('email');
     }
+
+    public function test_it_fails_to_create_contact_with_invalid_cep()
+    {
+        $response = $this->postJson('/api/contacts', [
+            'name' => 'John Doe',
+            'phone' => '123456789',
+            'email' => 'johndoe@example.com',
+            'cep' => '00000000'
+        ]);
+
+        $response->assertStatus(422)
+                 ->assertJsonValidationErrors('cep');
+    }
 }
