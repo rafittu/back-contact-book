@@ -4,7 +4,7 @@
 
 <br>
 
-Este projeto é uma API de Agenda de Contatos desenvolvida com o framework PHP Laravel 11 em um ambiente Docker. A aplicação permite adicionar, buscar e visualizar contatos, validando os dados fornecidos, como nome, telefone, e-mail e CEP. O CEP é validado através da API pública ViaCEP. A aplicação oferece um ponto de integração REST que pode ser consumido por sistemas externos.
+Este projeto é uma API de Agenda de Contatos desenvolvida com o framework PHP Laravel 11 em um ambiente Docker. A aplicação permite adicionar, deletar, buscar e visualizar contatos, validando os dados fornecidos, como nome, telefone, e-mail e CEP. O CEP é validado através da API pública ViaCEP. A aplicação oferece um ponto de integração REST que pode ser consumido por sistemas externos.
 
 Para uma experiência completa, siga o passo a passo abaixo para configurar o ambiente e iniciar o servidor.
 
@@ -152,6 +152,18 @@ $ php artisan key:generate
     "to": 1,
     "total": 1
   }
+}
+```
+
+- **`DELETE /api/contacts/{id}`:** Deleta um contato específico;
+  1. Parâmetro:    
+     - `id`: UUID do contato a ser deletado.
+    
+- * **Resposta**:
+
+```
+{
+    message: Contato deletado com sucesso
 }
 ```
 
