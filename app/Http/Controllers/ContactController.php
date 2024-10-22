@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateContactRequest;
 use App\Services\ContactService;
+
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class ContactController extends Controller
